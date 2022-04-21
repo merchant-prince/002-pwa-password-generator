@@ -1,24 +1,3 @@
-// // https://docs.cypress.io/api/table-of-contents
-
-// describe("My First Test", () => {
-//   it("Visits the app root url", () => {
-//     cy.visit("/");
-//     cy.contains("h1", "Welcome to Your Vue.js + TypeScript App");
-//   });
-// });
-
-// const ITERATION_COUNT = 10;
-
-// const SELECTORS = Object.freeze({
-//   passwordLength: '[data-test="password-length"]',
-//   generatedPassword: '[data-test="generated-password"]',
-//   regeneratePassword: '[data-test="regenerate-password"]',
-//   isUppercase: '[data-test="is-uppercase"]',
-//   isLowercase: '[data-test="is-lowercase"]',
-//   isNumeric: '[data-test="is-numeric"]',
-//   isSymbolic: '[data-test="is-symbolic"]',
-// });
-
 //TODO: CAN THESE BE IMPORTED?
 const characters = Object.freeze({
   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
@@ -51,26 +30,28 @@ function assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
   );
 }
 
-// function assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
-//   selectorOfElementToToggle: string,
-//   blacklistedCharacters: string[]
-// ) {
-//   cy.visit("/");
+function assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
+  selectorOfElementToToggle: string,
+  blacklistedCharacters: string[]
+) {
+  cy.visit("/");
 
-//   // we know that the default state of the toggle is 'checked' (since all the toggles have been set to true by default)
-//   // unchecking the specified toggle
-//   cy.get(selectorOfElementToToggle).click();
+  // we know that the default state of the toggle is 'checked' (since all the toggles have been set to true by default)
+  // unchecking the specified toggle
+  cy.get(selectorOfElementToToggle).click();
 
-//   cy.get(SELECTORS.generatedPassword).then(($generatedPasswordElement) => {
-//     const generatedPassword = $generatedPasswordElement.text();
+  cy.get('[data-test="generated-password"]').then(
+    ($generatedPasswordElement) => {
+      const generatedPassword = $generatedPasswordElement.text();
 
-//     expect(
-//       generatedPassword
-//         .split("")
-//         .every((character) => blacklistedCharacters.indexOf(character) === -1)
-//     ).to.be.true;
-//   });
-// }
+      expect(
+        generatedPassword
+          .split("")
+          .every((character) => blacklistedCharacters.indexOf(character) === -1)
+      ).to.be.true;
+    }
+  );
+}
 
 describe("Application tests", () => {
   it("successfully loads the page", () => {
@@ -127,11 +108,11 @@ describe("Application tests", () => {
       characters.uppercase
     ));
 
-  // it("regenerates a password without uppercase letters when the 'uppercase' button is toggled off", () =>
-  //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
-  //     SELECTORS.isUppercase,
-  //     characters.uppercase
-  //   ));
+  it("regenerates a password without uppercase letters when the 'uppercase' button is toggled off", () =>
+    assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
+      '[data-test="uppercase"]',
+      characters.uppercase
+    ));
 
   it("regenerates a password with lowercase letters when the 'lowercase' button is toggled on", () =>
     assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
@@ -139,11 +120,11 @@ describe("Application tests", () => {
       characters.lowercase
     ));
 
-  // it("regenerates a password without lowercase letters when the 'lowercase' button is toggled off", () =>
-  //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
-  //     SELECTORS.isLowercase,
-  //     characters.lowercase
-  //   ));
+  it("regenerates a password without lowercase letters when the 'lowercase' button is toggled off", () =>
+    assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
+      '[data-test="lowercase"]',
+      characters.lowercase
+    ));
 
   it("regenerates a password with numbers when the 'numbers' button is toggled on", () =>
     assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
@@ -151,11 +132,11 @@ describe("Application tests", () => {
       characters.numeric
     ));
 
-  // it("regenerates a password without numbers when the 'numbers' button is toggled off", () =>
-  //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
-  //     SELECTORS.isNumeric,
-  //     characters.numeric
-  //   ));
+  it("regenerates a password without numbers when the 'numbers' button is toggled off", () =>
+    assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
+      '[data-test="numeric"]',
+      characters.numeric
+    ));
 
   it("regenerates a password with symbols when the 'symbols' button is toggled on", () =>
     assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
@@ -163,32 +144,35 @@ describe("Application tests", () => {
       characters.symbolic
     ));
 
-  // it("regenerates a password without symbols when the 'symbols' button is toggled off", () =>
-  //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
-  //     SELECTORS.isSymbolic,
-  //     characters.symbolic
-  //   ));
+  it("regenerates a password without symbols when the 'symbols' button is toggled off", () =>
+    assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
+      '[data-test="symbolic"]',
+      characters.symbolic
+    ));
 
-  // it("displays an error if none of the modifier buttons are toggled on", () => {
-  //   cy.visit("/");
+  it("displays an error if none of the modifier buttons are toggled on", () => {
+    cy.visit("/");
 
-  //   // we know that the default state of the options are 'checked'; unchecking all
-  //   cy.get(SELECTORS.isUppercase).click();
-  //   cy.get(SELECTORS.isLowercase).click();
-  //   cy.get(SELECTORS.isNumeric).click();
-  //   cy.get(SELECTORS.isSymbolic).click();
+    // we know that the default state of the options are 'checked'; unchecking all
+    cy.get('[data-test="uppercase"]').click();
+    cy.get('[data-test="lowercase"]').click();
+    cy.get('[data-test="numeric"]').click();
+    cy.get('[data-test="symbolic"]').click();
 
-  //   cy.get(SELECTORS.generatedPassword).should("have.text", "Select an option");
-  // });
+    cy.get('[data-test="generated-password"]').should(
+      "have.text",
+      "Select an option"
+    );
+  });
 
-  // it("displays an error if the specified length of the password is 0", () => {
-  //   cy.visit("/");
+  it("displays an error if the specified length of the password is 0", () => {
+    cy.visit("/");
 
-  //   cy.get(SELECTORS.passwordLength).type("{selectall}0");
+    cy.get('[data-test="password-length"]').type("{selectall}0");
 
-  //   cy.get(SELECTORS.generatedPassword).should(
-  //     "have.text",
-  //     "Invalid password length"
-  //   );
-  // });
+    cy.get('[data-test="generated-password"]').should(
+      "have.text",
+      "Invalid password length"
+    );
+  });
 });
