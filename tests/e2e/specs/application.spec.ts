@@ -92,10 +92,12 @@ describe("Application tests", () => {
     cy.request("/").then((response) => expect(response.status).to.equal(200));
   });
 
-  it("generates a password on the page's first load", () => {
+  it("generates a 16 character password on the page's first load", () => {
     cy.visit("/")
       .get('[data-test="generated-password"]')
-      .should("have.length.greaterThan", 0);
+      .then(($generatedPasswordElement) => {
+        expect($generatedPasswordElement.text().length).to.equal(16);
+      });
   });
 
   it("regenerates the password when the 'regenerate' button is clicked", () => {
