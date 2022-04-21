@@ -45,10 +45,7 @@ const {
       </div>
 
       <div class="mt-4 flex justify-between">
-        <PasswordLengthInput
-          testId="password-length"
-          v-model:passwordLength.number="passwordLength"
-        />
+        <PasswordLengthInput v-model.number="passwordLength" />
 
         <div class="flex space-x-1 md:space-x-2">
           <Toggle testId="is-uppercase" v-model="isUppercase">ABC</Toggle>

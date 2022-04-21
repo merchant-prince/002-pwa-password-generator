@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { defineEmits, defineProps, toRefs } from "vue";
 
-const props = defineProps<{ passwordLength: number }>();
+const props = defineProps<{ modelValue: number }>();
 
-const { passwordLength } = toRefs(props);
+const { modelValue } = toRefs(props);
 
 const emit = defineEmits<{
-  (event: "update:passwordLength", value: string): void;
+  (event: "update:modelValue", value: string): void;
 }>();
 </script>
 
@@ -34,8 +34,8 @@ const emit = defineEmits<{
       min="0"
       max="96"
       class="focus:outline-none text-sm hide-number-controls"
-      :value="passwordLength"
-      @input="emit('update:passwordLength', ($event.target as HTMLInputElement).value)"
+      :value="modelValue"
+      @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     />
   </div>
 </template>
