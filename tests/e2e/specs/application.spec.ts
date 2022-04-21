@@ -89,7 +89,7 @@
 
 describe("Application tests", () => {
   it("successfully loads the page", () => {
-    cy.request("/").then((response) => expect(response.status).to.be(200));
+    cy.request("/").then((response) => expect(response.status).to.equal(200));
   });
 
   // it("generates a password on the page's first load", () => {
