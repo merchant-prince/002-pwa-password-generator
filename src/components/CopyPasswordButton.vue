@@ -7,13 +7,13 @@ const { copyPasswordCallback } = toRefs(props);
 
 const isActive = ref(false);
 
-const activateFor = (howLong: number) => {
+const activateFor = (duration: number) => {
   if (!isActive.value) {
     isActive.value = true;
 
     setTimeout(() => {
       isActive.value = false;
-    }, howLong);
+    }, duration);
   }
 };
 
