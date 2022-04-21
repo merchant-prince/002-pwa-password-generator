@@ -20,32 +20,50 @@ export default function usePasswordGenerator(initial: {
   const isNumeric = ref(initial.isNumeric);
   const isSymbolic = ref(initial.isSymbolic);
 
-  const characterBag = computed(() => [
-    ...(isUppercase.value ? characters.uppercase : []),
-    ...(isLowercase.value ? characters.lowercase : []),
-    ...(isNumeric.value ? characters.numeric : []),
-    ...(isSymbolic.value ? characters.symbolic : []),
-  ]);
-
   const _forcePasswordRecomputation = ref(false); // this value only exists to force the password's recomputation. @see regeneratePassword.
-  const generatedPassword = computed(() =>
-    passwordLength.value <= 0
-      ? "Invalid password length"
-      : !isUppercase.value &&
-        !isLowercase.value &&
-        !isNumeric.value &&
-        !isSymbolic.value
-      ? "Select an option"
-      : Array(passwordLength.value)
-          .fill(_forcePasswordRecomputation.value && null) // allows for the password's recomputation when `_passwordRegenerationSwitch` is mutated.
-          .map(
-            () =>
-              characterBag.value[
-                Math.floor(Math.random() * characterBag.value.length)
-              ]
-          )
-          .join("")
-  );
+  const generatedPassword = computed(() => {
+    _forcePasswordRecomputation.value; // this value is mentioned here to force the password's recomputation when it is changed.
+
+    if (passwordLength.value <= 0) {
+      return "Invalid password length";
+    }
+
+    if (
+      !isUppercase.value &&
+      !isLowercase.value &&
+      !isNumeric.value &&
+      !isSymbolic.value
+    ) {
+      return "Select an option";
+    }
+
+    const charactersBags = [
+      isUppercase.value ? characters.uppercase : null,
+      isLowercase.value ? characters.lowercase : null,
+      isNumeric.value ? characters.numeric : null,
+      isSymbolic.value ? characters.symbolic : null,
+    ].filter(
+      (characters: string[] | null) => characters !== null
+    ) as unknown as string[][];
+
+    const passwordCharacters: string[] = [];
+
+    for (let i = 0; i < passwordLength.value; i++) {
+      const charactersBag = charactersBags[i % charactersBags.length];
+
+      passwordCharacters.push(
+        charactersBag[Math.floor(Math.random() * charactersBag.length)]
+      );
+    }
+
+    // shuffle password characters
+    const shuffledPasswordCharacters = passwordCharacters
+      .map((character) => ({ character, sortValue: Math.random() }))
+      .sort((a, b) => a.sortValue - b.sortValue)
+      .map(({ character }) => character);
+
+    return shuffledPasswordCharacters.join("");
+  });
 
   const regeneratePassword = () =>
     (_forcePasswordRecomputation.value = !_forcePasswordRecomputation.value);
@@ -59,8 +77,6 @@ export default function usePasswordGenerator(initial: {
     isLowercase,
     isNumeric,
     isSymbolic,
-
-    characterBag,
 
     generatedPassword,
 

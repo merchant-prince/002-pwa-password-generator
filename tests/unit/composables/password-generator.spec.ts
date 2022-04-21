@@ -1,9 +1,6 @@
 import usePasswordGenerator from "../../../src/composables/password-generator";
 import { characters } from "../../../src/composables/password-generator";
 
-const ITERATION_COUNT = 10;
-//TODO: remove the uncertainty in the password's generation. always include all the selected chars if selected. also, increase the min char count to the number of selected toggles.
-
 function generateInitialValues(specifiedValues?: {
   passwordLength?: number;
   isUppercase?: boolean;
@@ -44,8 +41,7 @@ function generatesPasswordWithSpecifiedCharactersIfToggleIsTrue(
   nameOfPropertyOrVariableToToggle: keyof ReturnType<
     typeof generateInitialValues
   >,
-  mandatoryPasswordCharacters: string[],
-  iterationCount: number
+  mandatoryPasswordCharacters: string[]
 ) {
   const composable = usePasswordGenerator(
     generateInitialValues({
@@ -55,19 +51,10 @@ function generatesPasswordWithSpecifiedCharactersIfToggleIsTrue(
 
   composable[nameOfPropertyOrVariableToToggle].value = true;
 
-  const generatedPasswords = Array(iterationCount)
-    .fill(null)
-    .map(() => {
-      composable.regeneratePassword();
-      return composable.generatedPassword.value;
-    });
-
   expect(
-    generatedPasswords.some((generatedPassword) =>
-      generatedPassword
-        .split("")
-        .some((character) => mandatoryPasswordCharacters.includes(character))
-    )
+    composable.generatedPassword.value
+      .split("")
+      .some((character) => mandatoryPasswordCharacters.includes(character))
   ).toBeTruthy();
 }
 
@@ -127,8 +114,7 @@ describe("usePasswordGenerator composable", () => {
   it("generates a password containing uppercase characters if `isUppercase` is set to 'true'", () =>
     generatesPasswordWithSpecifiedCharactersIfToggleIsTrue(
       "isUppercase",
-      characters.uppercase,
-      ITERATION_COUNT
+      characters.uppercase
     ));
 
   it("generates a password without lowercase characters if `isLowercase` is set to 'false'", () =>
@@ -140,8 +126,7 @@ describe("usePasswordGenerator composable", () => {
   it("generates a password containing lowercase characters if `isLowercase` is set to 'true'", () =>
     generatesPasswordWithSpecifiedCharactersIfToggleIsTrue(
       "isLowercase",
-      characters.lowercase,
-      ITERATION_COUNT
+      characters.lowercase
     ));
 
   it("generates a password without numeric characters if `isNumeric` is set to 'false'", () =>
@@ -153,8 +138,7 @@ describe("usePasswordGenerator composable", () => {
   it("generates a password containing numeric characters if `isNumeric` is set to 'true'", () =>
     generatesPasswordWithSpecifiedCharactersIfToggleIsTrue(
       "isNumeric",
-      characters.numeric,
-      ITERATION_COUNT
+      characters.numeric
     ));
 
   it("generates a password without symbolic characters if `isSymbolic` is set to 'false'", () =>
@@ -166,7 +150,6 @@ describe("usePasswordGenerator composable", () => {
   it("generates a password containing symbolic characters if `isSymbolic` is set to 'true'", () =>
     generatesPasswordWithSpecifiedCharactersIfToggleIsTrue(
       "isSymbolic",
-      characters.symbolic,
-      ITERATION_COUNT
+      characters.symbolic
     ));
 });
