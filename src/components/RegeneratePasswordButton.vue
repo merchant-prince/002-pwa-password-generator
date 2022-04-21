@@ -1,24 +1,26 @@
 <script setup lang="ts">
-import { defineProps, ref } from "vue";
+import { defineProps, ref, toRefs } from "vue";
 
 const props = defineProps<{ regeneratePasswordCallback: () => boolean }>();
 
+const { regeneratePasswordCallback } = toRefs(props);
+
 const isRotating = ref(false);
 
-const rotateFor = (howLong: number) => {
+const rotateFor = (duration: number) => {
   if (!isRotating.value) {
     isRotating.value = true;
 
     setTimeout(() => {
       isRotating.value = false;
-    }, howLong);
+    }, duration);
   }
 };
 
 const regeneratePassword = () => {
   rotateFor(500);
 
-  props.regeneratePasswordCallback();
+  regeneratePasswordCallback.value();
 };
 </script>
 
@@ -27,7 +29,7 @@ const regeneratePassword = () => {
     @click="regeneratePassword"
     data-test="regenerate-password"
     xmlns="http://www.w3.org/2000/svg"
-    class="h-4 w-4 flex-grow-0 cursor-pointer"
+    class="h-4 w-4 -scale-x-100 flex-grow-0 cursor-pointer"
     :class="
       isRotating ? 'transition duration-500 rotate-180 text-blue-800' : ''
     "
