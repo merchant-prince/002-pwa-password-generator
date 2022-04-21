@@ -92,45 +92,47 @@ describe("Application tests", () => {
     cy.request("/").then((response) => expect(response.status).to.equal(200));
   });
 
-  // it("generates a password on the page's first load", () => {
-  //   cy.visit("/")
-  //     .get(SELECTORS.generatedPassword)
-  //     .should("have.length.greaterThan", 0);
-  // });
+  it("generates a password on the page's first load", () => {
+    cy.visit("/")
+      .get('[data-test="generated-password"]')
+      .should("have.length.greaterThan", 0);
+  });
 
-  // it("regenerates the password when the 'regenerate' button is clicked", () => {
-  //   cy.visit("/")
-  //     .get(SELECTORS.generatedPassword)
-  //     .then(($oldGeneratedPasswordElement) => {
-  //       const oldGeneratedPassword = $oldGeneratedPasswordElement.text();
+  it("regenerates the password when the 'regenerate' button is clicked", () => {
+    cy.visit("/")
+      .get('[data-test="generated-password"]')
+      .then(($oldGeneratedPasswordElement) => {
+        const oldGeneratedPassword = $oldGeneratedPasswordElement.text();
 
-  //       cy.get(SELECTORS.regeneratePassword).click();
+        cy.get('[data-test="regenerate-password"]').click();
 
-  //       cy.get(SELECTORS.generatedPassword).then(
-  //         ($newGeneratedPasswordElement) => {
-  //           const newGeneratedPassword = $newGeneratedPasswordElement.text();
+        cy.get('[data-test="generated-password"]').then(
+          ($newGeneratedPasswordElement) => {
+            const newGeneratedPassword = $newGeneratedPasswordElement.text();
 
-  //           expect(newGeneratedPassword).not.to.equal(oldGeneratedPassword);
-  //         }
-  //       );
-  //     });
-  // });
+            expect(newGeneratedPassword).not.to.equal(oldGeneratedPassword);
+          }
+        );
+      });
+  });
 
-  // it("regenerates a password of the current (correct) typed-in length", () => {
-  //   const newGeneratedPasswordLength = 24;
+  it("regenerates a password of the current (correct) typed-in length", () => {
+    const newGeneratedPasswordLength = 24;
 
-  //   cy.visit("/");
+    cy.visit("/");
 
-  //   cy.get(SELECTORS.passwordLength).type(
-  //     `{selectall}${newGeneratedPasswordLength}`
-  //   );
+    cy.get('[data-test="password-length"]').type(
+      `{selectall}${newGeneratedPasswordLength}`
+    );
 
-  //   cy.get(SELECTORS.generatedPassword).then(($newGeneratedPasswordElement) => {
-  //     expect($newGeneratedPasswordElement.text().length).to.be.equal(
-  //       newGeneratedPasswordLength
-  //     );
-  //   });
-  // });
+    cy.get('[data-test="generated-password"]').then(
+      ($newGeneratedPasswordElement) => {
+        expect($newGeneratedPasswordElement.text().length).to.be.equal(
+          newGeneratedPasswordLength
+        );
+      }
+    );
+  });
 
   // it("regenerates a password with uppercase letters when the 'uppercase' button is toggled on", () =>
   //   assertPasswordContainsMandatoryCharactersWhenToggleIsOn(

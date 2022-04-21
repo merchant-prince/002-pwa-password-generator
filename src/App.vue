@@ -31,6 +31,7 @@ const {
       <div class="flex space-x-2 p-2 rounded-lg border-2 border-blue-200">
         <p
           class="flex-grow whitespace-nowrap select-all cursor-default overflow-x-scroll hide-scrollbar"
+          data-test="generated-password"
         >
           {{ generatedPassword }}
         </p>
@@ -38,13 +39,17 @@ const {
         <div class="flex items-center space-x-1">
           <CopyPasswordButton :copyPasswordCallback="copyGeneratedPassword" />
           <RegeneratePasswordButton
+            data-test="regenerate-password"
             :regeneratePasswordCallback="regeneratePassword"
           />
         </div>
       </div>
 
       <div class="mt-4 flex justify-between">
-        <PasswordLengthInput v-model.number="passwordLength" />
+        <PasswordLengthInput
+          data-test="password-length"
+          v-model.number="passwordLength"
+        />
 
         <div class="flex space-x-1 md:space-x-2">
           <Toggle v-model="isUppercase">ABC</Toggle>
