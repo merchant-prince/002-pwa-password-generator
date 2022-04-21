@@ -30,7 +30,6 @@ const {
     <section class="p-1 md:p-4 w-screen md:w-96 bg-white rounded-xl shadow-md">
       <div class="flex space-x-2 p-2 rounded-lg border-2 border-blue-200">
         <p
-          data-test="generated-password"
           class="flex-grow whitespace-nowrap select-all cursor-default overflow-x-scroll hide-scrollbar"
         >
           {{ generatedPassword }}
@@ -48,10 +47,10 @@ const {
         <PasswordLengthInput v-model.number="passwordLength" />
 
         <div class="flex space-x-1 md:space-x-2">
-          <Toggle testId="is-uppercase" v-model="isUppercase">ABC</Toggle>
-          <Toggle testId="is-lowercase" v-model="isLowercase">abc</Toggle>
-          <Toggle testId="is-numeric" v-model="isNumeric">123</Toggle>
-          <Toggle testId="is-symbolic" v-model="isSymbolic">!?#</Toggle>
+          <Toggle v-model="isUppercase">ABC</Toggle>
+          <Toggle v-model="isLowercase">abc</Toggle>
+          <Toggle v-model="isNumeric">123</Toggle>
+          <Toggle v-model="isSymbolic">!?#</Toggle>
         </div>
       </div>
     </section>

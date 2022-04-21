@@ -27,7 +27,7 @@ export default function usePasswordGenerator(initial: {
     ...(isSymbolic.value ? characters.symbolic : []),
   ]);
 
-  const _passwordRegenerationSwitch = ref(false); // this value only exists as a switch to force the password's recomputation when needed. @see regeneratePassword.
+  const _forcePasswordRecomputation = ref(false); // this value only exists to force the password's recomputation. @see regeneratePassword.
   const generatedPassword = computed(() =>
     passwordLength.value <= 0
       ? "Invalid password length"
@@ -37,7 +37,7 @@ export default function usePasswordGenerator(initial: {
         !isSymbolic.value
       ? "Select an option"
       : Array(passwordLength.value)
-          .fill(_passwordRegenerationSwitch.value && null) // the Ref inside `.fill` allows `regeneratePassword` to force a password regeneration when it is called.
+          .fill(_forcePasswordRecomputation.value && null) // allows for the password's recomputation when `_passwordRegenerationSwitch` is mutated.
           .map(
             () =>
               characterBag.value[
@@ -48,7 +48,7 @@ export default function usePasswordGenerator(initial: {
   );
 
   const regeneratePassword = () =>
-    (_passwordRegenerationSwitch.value = !_passwordRegenerationSwitch.value);
+    (_forcePasswordRecomputation.value = !_forcePasswordRecomputation.value);
 
   const copyGeneratedPassword = () =>
     navigator.clipboard.writeText(generatedPassword.value);
