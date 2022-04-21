@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import usePasswordGenerator from "./lib/composables/password-generator";
+import usePasswordGenerator from "./composables/password-generator";
 import PasswordLengthInput from "./components/PasswordLengthInput.vue";
 import Toggle from "./components/Toggle.vue";
 import RegeneratePasswordButton from "./components/RegeneratePasswordButton.vue";
