@@ -1,10 +1,4 @@
-//TODO: CAN THESE BE IMPORTED?
-const characters = Object.freeze({
-  uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
-  lowercase: "abcdefghijklmnopqrstuvwxyz".split(""),
-  numeric: "01234567890".split(""),
-  symbolic: "~`!@#$%^&*()_-+={[}]|\\:;\"'<,>.?/".split(""),
-});
+import { characters } from "../../../src/composables/password-generator";
 
 function assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
   selectorOfElementToToggle: string,
