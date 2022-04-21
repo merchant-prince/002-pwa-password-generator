@@ -1,6 +1,6 @@
 # password-generator
 
-A PWA that generates a password.
+A PWA that generates passwords. Site is live [here](https://peaceful-peony-af8d4a.netlify.app).
 
 ## Project setup
 ```
