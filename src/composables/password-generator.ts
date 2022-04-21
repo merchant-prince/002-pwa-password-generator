@@ -46,12 +46,22 @@ export default function usePasswordGenerator(initial: {
 
     const passwordCharacters: string[] = [];
 
-    for (let i = 0; i < passwordLength.value; i++) {
-      const charactersBag = charactersBags[i % charactersBags.length];
+    if (passwordLength.value < charactersBags.length) {
+      const characters = charactersBags.flat();
 
-      passwordCharacters.push(
-        charactersBag[Math.floor(Math.random() * charactersBag.length)]
-      );
+      for (let i = 0; i < passwordLength.value; i++) {
+        passwordCharacters.push(
+          characters[Math.floor(Math.random() * characters.length)]
+        );
+      }
+    } else {
+      for (let i = 0; i < passwordLength.value; i++) {
+        const charactersBag = charactersBags[i % charactersBags.length];
+
+        passwordCharacters.push(
+          charactersBag[Math.floor(Math.random() * charactersBag.length)]
+        );
+      }
     }
 
     // shuffle password characters
