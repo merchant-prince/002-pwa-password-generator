@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { defineEmits, defineProps } from "vue";
+import { defineEmits, defineProps, toRefs } from "vue";
 
-const props = defineProps<{
-  passwordLength: number;
-  testId: string;
-}>();
+const props = defineProps<{ passwordLength: number }>();
+
+const { passwordLength } = toRefs(props);
 
 const emit = defineEmits<{
   (event: "update:passwordLength", value: string): void;
@@ -34,9 +33,8 @@ const emit = defineEmits<{
       type="number"
       min="0"
       max="96"
-      :data-test="props.testId"
       class="focus:outline-none text-sm hide-number-controls"
-      :value="props.passwordLength"
+      :value="passwordLength"
       @input="emit('update:passwordLength', ($event.target as HTMLInputElement).value)"
     />
   </div>
