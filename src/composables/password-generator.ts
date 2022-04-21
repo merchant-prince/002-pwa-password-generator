@@ -42,9 +42,7 @@ export default function usePasswordGenerator(initial: {
       isLowercase.value ? characters.lowercase : null,
       isNumeric.value ? characters.numeric : null,
       isSymbolic.value ? characters.symbolic : null,
-    ].filter(
-      (characters: string[] | null) => characters !== null
-    ) as unknown as string[][];
+    ].filter((characters) => characters !== null) as unknown as string[][];
 
     const passwordCharacters: string[] = [];
 
