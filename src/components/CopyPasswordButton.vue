@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { defineProps, ref } from "vue";
+import { defineProps, ref, toRefs } from "vue";
 
 const props = defineProps<{ copyPasswordCallback: () => void }>();
+
+const { copyPasswordCallback } = toRefs(props);
 
 const isActive = ref(false);
 
@@ -18,7 +20,7 @@ const activateFor = (howLong: number) => {
 const copyPassword = () => {
   activateFor(1000);
 
-  props.copyPasswordCallback();
+  copyPasswordCallback.value();
 };
 </script>
 
