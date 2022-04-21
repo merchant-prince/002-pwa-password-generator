@@ -52,10 +52,10 @@ const {
         />
 
         <div class="flex space-x-1 md:space-x-2">
-          <Toggle v-model="isUppercase">ABC</Toggle>
-          <Toggle v-model="isLowercase">abc</Toggle>
-          <Toggle v-model="isNumeric">123</Toggle>
-          <Toggle v-model="isSymbolic">!?#</Toggle>
+          <Toggle data-test="uppercase" v-model="isUppercase">ABC</Toggle>
+          <Toggle data-test="lowercase" v-model="isLowercase">abc</Toggle>
+          <Toggle data-test="numeric" v-model="isNumeric">123</Toggle>
+          <Toggle data-test="symbolic" v-model="isSymbolic">!?#</Toggle>
         </div>
       </div>
     </section>

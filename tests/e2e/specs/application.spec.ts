@@ -19,52 +19,37 @@
 //   isSymbolic: '[data-test="is-symbolic"]',
 // });
 
-// const characters = Object.freeze({
-//   uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
-//   lowercase: "abcdefghijklmnopqrstuvwxyz".split(""),
-//   numeric: "01234567890".split(""),
-//   symbolic: "~`!@#$%^&*()_-+={[}]|\\:;\"'<,>.?/".split(""),
-// });
+//TODO: CAN THESE BE IMPORTED?
+const characters = Object.freeze({
+  uppercase: "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""),
+  lowercase: "abcdefghijklmnopqrstuvwxyz".split(""),
+  numeric: "01234567890".split(""),
+  symbolic: "~`!@#$%^&*()_-+={[}]|\\:;\"'<,>.?/".split(""),
+});
 
-// function assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
-//   selectorOfElementToToggle: string,
-//   mandatoryCharacters: string[],
-//   iterationCount: number
-// ) {
-//   cy.visit("/");
+function assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
+  selectorOfElementToToggle: string,
+  mandatoryCharacters: string[]
+) {
+  cy.visit("/");
 
-//   // we know that the default state of the 'uppercase' toggle is 'checked'
-//   // we therefore click on the toggle twice to interact with its state, and return the aforementioned to true
-//   cy.get(selectorOfElementToToggle).click();
-//   cy.get(selectorOfElementToToggle).click();
+  // we know that the default state of the 'uppercase' toggle is 'checked'
+  // we therefore click on the toggle twice to interact with its state, and return the aforementioned to true
+  cy.get(selectorOfElementToToggle).click();
+  cy.get(selectorOfElementToToggle).click();
 
-//   const generatedPasswords: string[] = [];
+  cy.get('[data-test="generated-password"]').then(
+    ($generatedPasswordElement) => {
+      const generatedPassword = $generatedPasswordElement.text();
 
-//   const iterationToken = "iteration";
-//   const iterationTokenToWaitFor = `@${iterationToken}-${iterationCount - 1}`;
-
-//   for (let i = 0; i < iterationCount; i++) {
-//     cy.get(SELECTORS.regeneratePassword).click();
-
-//     cy.get(SELECTORS.generatedPassword).then(($generatedPasswordElement) =>
-//       generatedPasswords.push($generatedPasswordElement.text())
-//     );
-
-//     cy.wrap(true).as(`${iterationToken}-${i}`);
-//   }
-
-//   cy.get(iterationTokenToWaitFor).then(() => {
-//     cy.log(generatedPasswords.length.toString());
-
-//     expect(
-//       generatedPasswords.some((generatedPassword) =>
-//         generatedPassword
-//           .split("")
-//           .some((character) => mandatoryCharacters.indexOf(character) !== -1)
-//       )
-//     ).to.be.true;
-//   });
-// }
+      expect(
+        generatedPassword
+          .split("")
+          .some((character) => mandatoryCharacters.indexOf(character) !== -1)
+      ).to.be.true;
+    }
+  );
+}
 
 // function assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
 //   selectorOfElementToToggle: string,
@@ -136,12 +121,11 @@ describe("Application tests", () => {
     );
   });
 
-  // it("regenerates a password with uppercase letters when the 'uppercase' button is toggled on", () =>
-  //   assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
-  //     SELECTORS.isUppercase,
-  //     characters.uppercase,
-  //     ITERATION_COUNT
-  //   ));
+  it("regenerates a password with uppercase letters when the 'uppercase' button is toggled on", () =>
+    assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
+      '[data-test="uppercase"]',
+      characters.uppercase
+    ));
 
   // it("regenerates a password without uppercase letters when the 'uppercase' button is toggled off", () =>
   //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
@@ -149,12 +133,11 @@ describe("Application tests", () => {
   //     characters.uppercase
   //   ));
 
-  // it("regenerates a password with lowercase letters when the 'lowercase' button is toggled on", () =>
-  //   assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
-  //     SELECTORS.isLowercase,
-  //     characters.lowercase,
-  //     ITERATION_COUNT
-  //   ));
+  it("regenerates a password with lowercase letters when the 'lowercase' button is toggled on", () =>
+    assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
+      '[data-test="lowercase"]',
+      characters.lowercase
+    ));
 
   // it("regenerates a password without lowercase letters when the 'lowercase' button is toggled off", () =>
   //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
@@ -162,12 +145,11 @@ describe("Application tests", () => {
   //     characters.lowercase
   //   ));
 
-  // it("regenerates a password with numbers when the 'numbers' button is toggled on", () =>
-  //   assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
-  //     SELECTORS.isNumeric,
-  //     characters.numeric,
-  //     ITERATION_COUNT
-  //   ));
+  it("regenerates a password with numbers when the 'numbers' button is toggled on", () =>
+    assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
+      '[data-test="numeric"]',
+      characters.numeric
+    ));
 
   // it("regenerates a password without numbers when the 'numbers' button is toggled off", () =>
   //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
@@ -175,12 +157,11 @@ describe("Application tests", () => {
   //     characters.numeric
   //   ));
 
-  // it("regenerates a password with symbols when the 'symbols' button is toggled on", () =>
-  //   assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
-  //     SELECTORS.isSymbolic,
-  //     characters.symbolic,
-  //     ITERATION_COUNT
-  //   ));
+  it("regenerates a password with symbols when the 'symbols' button is toggled on", () =>
+    assertPasswordContainsMandatoryCharactersWhenToggleIsOn(
+      '[data-test="symbolic"]',
+      characters.symbolic
+    ));
 
   // it("regenerates a password without symbols when the 'symbols' button is toggled off", () =>
   //   assertPasswordDoesNotContainBlacklistedCharactersWhenToggleIsOff(
