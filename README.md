@@ -1,5 +1,7 @@
 # password-generator
 
+A PWA that generates a password.
+
 ## Project setup
 ```
 yarn install
@@ -29,6 +31,3 @@ yarn test:e2e
 ```
 yarn lint
 ```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
