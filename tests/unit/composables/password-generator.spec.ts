@@ -25,10 +25,8 @@ function generatesPasswordWithoutSpecifiedCharactersIfToggleIsFalse(
   blacklistedCharacters: string[]
 ) {
   const composable = usePasswordGenerator(
-    generateInitialValues({ [nameOfPropertyOrVariableToToggle]: true })
+    generateInitialValues({ [nameOfPropertyOrVariableToToggle]: false })
   );
-
-  composable[nameOfPropertyOrVariableToToggle].value = false;
 
   expect(
     composable.generatedPassword.value
@@ -45,11 +43,9 @@ function generatesPasswordWithSpecifiedCharactersIfToggleIsTrue(
 ) {
   const composable = usePasswordGenerator(
     generateInitialValues({
-      [nameOfPropertyOrVariableToToggle]: false,
+      [nameOfPropertyOrVariableToToggle]: true,
     })
   );
-
-  composable[nameOfPropertyOrVariableToToggle].value = true;
 
   expect(
     composable.generatedPassword.value
